@@ -17,13 +17,16 @@ if (!defined('ABSPATH')) exit;
  */
 function gem_default_pages() {
     return array(
-        'about-us'        => array('運営者情報',                      'about-us.html'),
-        'line-course'     => array('LINE無料講座について',            'line-course.html'),
-        'faq'             => array('よくある質問',                    'faq.html'),
-        'contact'         => array('お問い合わせ',                    'contact.html'),
-        'privacy-policy'  => array('プライバシーポリシー',            'privacy-policy.html'),
-        'disclaimer'      => array('免責事項',                        'disclaimer.html'),
-        'ad-disclosure'   => array('アフィリエイト広告に関する表記', 'ad-disclosure.html'),
+        'about-us'              => array('運営者情報',                      'about-us.html'),
+        'line-course'           => array('LINE無料講座について',            'line-course.html'),
+        'faq'                   => array('よくある質問',                    'faq.html'),
+        'contact'               => array('お問い合わせ',                    'contact.html'),
+        'privacy-policy'        => array('プライバシーポリシー',            'privacy-policy.html'),
+        'disclaimer'            => array('免責事項',                        'disclaimer.html'),
+        'ad-disclosure'         => array('アフィリエイト広告に関する表記', 'ad-disclosure.html'),
+        'gem-appraisal-basics'  => array('はじめての宝石鑑定',              'gem-appraisal-basics.html'),
+        'appraisal-value'       => array('鑑定額の見方',                    'appraisal-value.html'),
+        'gem-basics'            => array('宝石の基礎講座',                  'gem-basics.html'),
     );
 }
 
@@ -75,13 +78,15 @@ function gem_install_default_pages() {
     return $result;
 }
 
-/* テーマ有効化時に1度だけ自動実行 */
+/* テーマ有効化時に1度だけ自動実行（バージョン管理：ページ追加時はインクリメント） */
+define('GEM_PAGES_INSTALL_VERSION', 2);
 function gem_install_default_pages_on_activation() {
-    if (get_option('gem_default_pages_installed')) return;
+    if ((int) get_option('gem_default_pages_installed') >= GEM_PAGES_INSTALL_VERSION) return;
     gem_install_default_pages();
-    update_option('gem_default_pages_installed', 1);
+    update_option('gem_default_pages_installed', GEM_PAGES_INSTALL_VERSION);
 }
 add_action('after_switch_theme', 'gem_install_default_pages_on_activation');
+add_action('admin_init', 'gem_install_default_pages_on_activation');
 
 /* ----- 管理画面メニュー：手動で再実行できるツール ----- */
 function gem_register_pages_admin_menu() {

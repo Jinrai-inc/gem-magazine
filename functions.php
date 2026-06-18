@@ -9,6 +9,7 @@ define('GEM_VER', '1.0.0');
 require_once get_template_directory() . '/inc/icons.php';
 require_once get_template_directory() . '/inc/theme-data.php';
 require_once get_template_directory() . '/inc/page-shortcodes.php';
+require_once get_template_directory() . '/inc/pillar-pages.php';
 require_once get_template_directory() . '/inc/page-installer.php';
 
 /* ---------------------------------------------------------
