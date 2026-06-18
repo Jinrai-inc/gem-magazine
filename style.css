@@ -1,0 +1,405 @@
+/*
+Theme Name: GEM-MAGAZINE
+Theme URI: https://media.example.com/
+Author: GEM-MAGAZINE
+Description: 宝石鑑定の知識をやさしく学べる、宝石・ジュエリー専門メディア向けWordPressテーマ。LINE無料講座への登録導線を中心に設計したアフィリエイトメディアテーマです。
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: gem-magazine
+*/
+
+/* ============================================================
+   Design tokens
+   ============================================================ */
+:root{
+  --bg:#FEFCFC; --bg-soft:#FCF1F3; --card:#FFFFFF;
+  --rose:#D2778A; --rose-deep:#C15E73; --rose-kicker:#DC8597;
+  --pink-icon:#D87E92; --pink-line:#F0CDD5;
+  --ink:#3C3539; --ink-2:#6B6065; --muted:#A59AA0;
+  --gold:#C2A35A; --gold-soft:#E7D9AE;
+  --line:#06C755; --line-deep:#05A648;
+  --border:#EADCE0; --border-gold:#E4D5A8;
+  --serif:'Shippori Mincho','Hiragino Mincho ProN',serif;
+  --sans:'Zen Kaku Gothic New','Hiragino Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(0.2,0,0.2,1);
+  --maxw:1180px;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:500;line-height:1.9;
+  -webkit-font-smoothing:antialiased;font-feature-settings:"palt";
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;height:auto;}
+.container{max-width:var(--maxw);margin:0 auto;padding-left:28px;padding-right:28px;}
+.section{max-width:var(--maxw);margin:0 auto;padding:72px 28px;}
+.screen-reader-text{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.is-visible{opacity:1;transform:none;}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(254,252,252,0.94);border-bottom:1px solid var(--border);backdrop-filter:saturate(1.1);}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;flex:none;}
+.brand-names{display:flex;flex-direction:column;line-height:1.15;}
+.brand-name{font-family:var(--serif);font-weight:800;font-size:22px;letter-spacing:0.04em;color:var(--ink);}
+.brand-sub{font-size:9px;letter-spacing:0.24em;color:var(--gold);font-weight:700;}
+.brand-tagline{font-size:10.5px;color:var(--muted);border-left:1px solid var(--border);padding-left:12px;margin-left:2px;line-height:1.5;}
+.nav-desktop{display:flex;align-items:center;gap:24px;font-size:13.5px;font-weight:700;color:var(--ink-2);}
+.nav-desktop ul{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0;}
+.nav-desktop a{padding-bottom:4px;border-bottom:2px solid transparent;transition:color .15s var(--ease),border-color .15s var(--ease);}
+.nav-desktop a:hover{color:var(--rose);}
+.nav-desktop .current-menu-item > a,
+.nav-desktop .current_page_item > a{color:var(--rose);border-bottom-color:var(--rose);}
+.header-actions{display:flex;align-items:center;gap:10px;}
+.icon-btn{border:0;background:transparent;color:var(--ink-2);cursor:pointer;padding:6px;display:inline-flex;}
+.icon-btn:hover{color:var(--rose);}
+.burger{display:none;color:var(--ink);}
+.search-bar{border-top:1px solid var(--border);padding:12px 28px;display:none;}
+.search-bar.is-open{display:block;}
+.search-bar form{max-width:var(--maxw);margin:0 auto;display:flex;gap:10px;}
+.search-bar input[type=search],.search-bar input[type=text]{flex:1;border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;background:#fff;}
+.search-bar button{background:var(--rose);color:#fff;font-size:13px;font-weight:700;padding:11px 22px;border-radius:8px;cursor:pointer;border:0;}
+.mobile-menu{border-top:1px solid var(--border);padding:10px 28px;display:none;flex-direction:column;font-size:15px;font-weight:700;color:var(--ink-2);}
+.mobile-menu.is-open{display:flex;}
+.mobile-menu ul{list-style:none;margin:0;padding:0;}
+.mobile-menu a{display:block;padding:9px 0;border-bottom:1px solid var(--border);}
+.mobile-menu li:last-child a{border-bottom:0;}
+
+/* ============================================================
+   Hero / FV
+   ============================================================ */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#F3ECE6 0%,#EADFE0 100%);}
+.hero-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.28));pointer-events:none;}
+.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:64px 28px 72px;display:flex;justify-content:center;}
+.hero-card{width:600px;max-width:100%;background:rgba(255,255,255,0.93);border:1px solid var(--border-gold);border-radius:6px;padding:8px;box-shadow:0 24px 60px -28px rgba(60,53,57,0.4);}
+.hero-card-inner{border:1px solid var(--gold-soft);border-radius:4px;padding:48px 48px 40px;text-align:center;}
+.ornament{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;color:var(--gold);}
+.ornament .rule-l{height:1px;width:40px;background:linear-gradient(90deg,transparent,var(--gold));}
+.ornament .rule-r{height:1px;width:40px;background:linear-gradient(90deg,var(--gold),transparent);}
+.kicker{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--rose-kicker);letter-spacing:0.04em;margin-bottom:14px;}
+.hero-title{font-family:var(--serif);font-weight:800;font-size:46px;line-height:1.45;margin:0 0 22px;letter-spacing:0.01em;color:var(--ink);}
+.hero-title .accent{color:var(--rose);}
+.hero-sub{font-size:14.5px;line-height:1.95;color:var(--ink-2);margin:0 0 30px;}
+.gift-line{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px;color:var(--ink-2);font-size:13px;font-weight:500;}
+
+/* buttons */
+.btn-line{display:flex;align-items:center;justify-content:center;gap:14px;background:linear-gradient(180deg,var(--line),var(--line-deep));color:#fff;font-weight:700;font-size:19px;padding:18px 24px;border-radius:999px;box-shadow:0 14px 26px -10px rgba(6,199,85,0.6);transition:transform .12s var(--ease),box-shadow .2s var(--ease);}
+.btn-line:hover{transform:translateY(-2px);box-shadow:0 18px 32px -10px rgba(6,199,85,0.7);}
+.btn-line:active{transform:scale(0.99);}
+.btn-line--sm{font-size:17px;padding:15px 26px;display:inline-flex;}
+.btn-line-mark{background:#fff;color:var(--line);font-weight:900;font-size:12px;letter-spacing:0.02em;padding:5px 8px;border-radius:8px;line-height:1;}
+.btn-line--sm .btn-line-mark{font-size:11px;padding:4px 7px;border-radius:7px;}
+.btn-arrow{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;background:rgba(255,255,255,0.22);border-radius:50%;flex:none;}
+.btn-line--sm .btn-arrow{width:26px;height:26px;}
+.btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;background:#fff;border:1px solid var(--border-gold);color:var(--ink);font-weight:700;font-size:15px;padding:15px 24px;border-radius:999px;transition:background .18s var(--ease);}
+.btn-secondary:hover{background:var(--bg-soft);}
+.btn-secondary span{flex:1;text-align:center;}
+
+/* ============================================================
+   Section heads
+   ============================================================ */
+.section-head{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:40px;}
+.section-title{font-family:var(--serif);font-weight:800;font-size:27px;margin:0;letter-spacing:0.02em;color:var(--ink);}
+.section-head--between{justify-content:space-between;margin-bottom:28px;}
+.section-head--between .left{display:flex;align-items:center;gap:10px;}
+.section-head--between .section-title{font-size:26px;}
+.head-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink-2);}
+.head-link:hover{color:var(--rose);}
+
+/* ============================================================
+   Content cards
+   ============================================================ */
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.content-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:30px 24px 26px;text-align:center;transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .2s var(--ease);}
+.content-card:hover{border-color:var(--pink-line);box-shadow:0 16px 34px -22px rgba(210,119,138,0.6);transform:translateY(-4px);}
+.icon-circle{display:inline-flex;width:74px;height:74px;align-items:center;justify-content:center;border-radius:50%;background:var(--bg-soft);margin-bottom:18px;color:var(--pink-icon);}
+.content-card h3{font-family:var(--serif);font-weight:700;font-size:18px;margin:0 0 10px;color:var(--ink);}
+.content-card p{font-size:12.5px;color:var(--ink-2);line-height:1.85;margin:0 0 16px;}
+.more-link{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--rose);}
+
+/* ============================================================
+   Posts grid
+   ============================================================ */
+.posts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.post-card{display:block;}
+.post-thumb{position:relative;height:170px;border-radius:10px;overflow:hidden;}
+.post-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease);}
+.post-card:hover .post-thumb img{transform:scale(1.06);}
+.gem-fallback{position:absolute;inset:0;transition:transform .5s var(--ease);}
+.gem-fallback::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 32% 26%,rgba(255,255,255,0.5),transparent 32%);}
+.post-card:hover .gem-fallback{transform:scale(1.06);}
+.gem-1{background:radial-gradient(ellipse at 40% 30%,#ffffff 0%,#d7dde6 48%,#9aa4b6 100%);}
+.gem-2{background:radial-gradient(ellipse at 36% 30%,#cfe0ff 0%,#2f5fd0 50%,#102560 100%);}
+.gem-3{background:radial-gradient(ellipse at 38% 32%,#ffd6e2 0%,#e87fa0 50%,#9c3a5e 100%);}
+.gem-4{background:radial-gradient(ellipse at 40% 32%,#ffe5ee 0%,#f0a8c2 48%,#c56a8c 100%);}
+.post-cat{position:absolute;left:12px;top:12px;background:rgba(255,255,255,0.94);color:var(--rose-deep);font-size:11px;font-weight:700;padding:5px 11px;border-radius:5px;}
+.post-title{font-weight:700;font-size:14.5px;line-height:1.6;margin:14px 0 10px;color:var(--ink);}
+.post-meta{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+
+/* ============================================================
+   LINE course section
+   ============================================================ */
+.course{background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.course-wrap{max-width:var(--maxw);margin:0 auto;padding:64px 28px;}
+.course-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:48px;align-items:center;}
+.course-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.badge-free{background:var(--line);color:#fff;font-weight:700;font-size:14px;padding:5px 12px;border-radius:6px;}
+.course-head .section-title{font-size:25px;}
+.course-lead{font-size:14px;color:var(--ink-2);line-height:1.9;margin:0 0 22px;}
+.benefits{display:flex;flex-direction:column;gap:13px;margin-bottom:28px;}
+.benefit{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:500;color:var(--ink);}
+.benefit .check{display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border-radius:50%;background:var(--rose);flex:none;}
+.steps-title{text-align:center;font-weight:700;font-size:15px;color:var(--ink);margin-bottom:22px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch;}
+.step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 18px;text-align:center;}
+.step-no{display:inline-flex;flex-direction:column;width:52px;height:52px;align-items:center;justify-content:center;border-radius:50%;background:var(--rose);color:#fff;margin-bottom:14px;line-height:1;}
+.step-no small{font-size:8px;font-weight:700;letter-spacing:0.1em;}
+.step-no b{font-family:var(--serif);font-weight:700;font-size:18px;}
+.step-icon{display:flex;align-items:center;justify-content:center;height:42px;margin-bottom:10px;color:var(--pink-icon);}
+.step h3{font-family:var(--serif);font-weight:700;font-size:15px;margin:0 0 8px;color:var(--ink);}
+.step p{font-size:12px;color:var(--ink-2);line-height:1.8;margin:0;}
+
+/* ============================================================
+   Trust
+   ============================================================ */
+.trust-head{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:34px;color:var(--gold);}
+.trust-head .section-title{font-size:24px;}
+.trust-head .leaf-r{transform:scaleX(-1);}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border:1px solid var(--border);border-radius:14px;padding:30px 24px;background:var(--card);}
+.trust-item{text-align:center;padding:0 8px;}
+.trust-item .icon{display:inline-flex;width:48px;height:48px;align-items:center;justify-content:center;color:var(--pink-icon);margin-bottom:10px;}
+.trust-item h3{font-family:var(--serif);font-weight:700;font-size:15.5px;margin:0 0 8px;color:var(--ink);}
+.trust-item p{font-size:12px;color:var(--ink-2);line-height:1.8;margin:0;}
+
+/* ============================================================
+   Article (single / page)
+   ============================================================ */
+.article-wrap{max-width:740px;margin:0 auto;padding:56px 28px 24px;}
+.article-hero{max-width:1180px;margin:0 auto;padding:32px 28px 0;}
+.article-hero img{width:100%;border-radius:12px;display:block;}
+.entry-cat{display:inline-block;background:var(--bg-soft);color:var(--rose-deep);font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;margin-bottom:14px;}
+.entry-title{font-family:var(--serif);font-weight:800;font-size:32px;line-height:1.5;margin:0 0 14px;color:var(--ink);}
+.entry-meta{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.entry-content{font-size:15.5px;line-height:1.95;color:var(--ink);}
+.entry-content h2{font-family:var(--serif);font-weight:800;font-size:24px;margin:44px 0 16px;color:var(--ink);}
+.entry-content h3{font-weight:700;font-size:19px;margin:32px 0 12px;padding-left:12px;border-left:3px solid var(--rose);color:var(--ink);}
+.entry-content a{color:var(--rose-deep);text-decoration:underline;}
+.entry-content img{border-radius:8px;}
+.entry-content blockquote{margin:24px 0;padding:14px 20px;background:var(--bg-soft);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;}
+.archive-head{max-width:1180px;margin:0 auto;padding:48px 28px 8px;text-align:center;}
+.archive-title{font-family:var(--serif);font-weight:800;font-size:28px;color:var(--ink);margin:0;}
+.pagination{max-width:1180px;margin:0 auto;padding:24px 28px 64px;display:flex;justify-content:center;gap:8px;}
+.pagination .page-numbers{display:inline-flex;min-width:40px;height:40px;align-items:center;justify-content:center;padding:0 12px;border:1px solid var(--border);border-radius:8px;font-weight:700;font-size:14px;color:var(--ink-2);}
+.pagination .page-numbers.current{background:var(--rose);border-color:var(--rose);color:#fff;}
+.pagination a.page-numbers:hover{border-color:var(--rose);color:var(--rose);}
+
+/* course CTA strip inside article */
+.inline-cta{margin:48px 0;background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center;}
+.inline-cta h3{font-family:var(--serif);font-weight:800;font-size:20px;margin:0 0 8px;color:var(--ink);}
+.inline-cta p{font-size:13px;color:var(--ink-2);margin:0 0 18px;}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer{margin-top:48px;background:var(--ink);color:rgba(255,255,255,0.72);}
+.footer-grid{max-width:var(--maxw);margin:0 auto;padding:56px 28px 0;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;}
+.footer-brand .row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.footer-brand .name{font-family:var(--serif);font-weight:800;font-size:20px;color:#fff;letter-spacing:0.04em;}
+.footer-brand p{font-size:12.5px;line-height:1.85;margin:0;max-width:300px;}
+.footer-col h4{font-size:12px;font-weight:700;letter-spacing:0.06em;color:#fff;margin:0 0 14px;}
+.footer-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:13px;}
+.footer-col a{color:rgba(255,255,255,0.72);}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{max-width:var(--maxw);margin:36px auto 0;padding:18px 28px;border-top:1px solid rgba(255,255,255,0.12);font-size:12px;color:rgba(255,255,255,0.5);text-align:center;}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media(max-width:1000px){
+  .cards-grid{grid-template-columns:repeat(2,1fr);}
+  .posts-grid{grid-template-columns:repeat(2,1fr);}
+  .course-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr;}
+}
+/* モバイル／タブレット縦持ち：ナビをハンバーガーに切り替え（デフォルト） */
+@media(max-width:900px){
+  .nav-desktop{display:none;}
+  .burger{display:inline-flex;}
+  .brand-tagline{display:none;}
+}
+@media(max-width:760px){
+  .cards-grid{grid-template-columns:1fr 1fr;}
+  .posts-grid{grid-template-columns:1fr 1fr;}
+  .trust-grid{grid-template-columns:1fr 1fr;}
+  .hero-title{font-size:38px;}
+  .hero-card-inner{padding:36px 24px 30px;}
+  .container,.section{padding-left:18px;padding-right:18px;}
+  .footer-grid{grid-template-columns:1fr;gap:28px;}
+}
+/* ============================================================
+   GEM-MAGAZINE ─ 固定ページ用 追加スタイル（page-blocks）
+   ------------------------------------------------------------
+   ・page.php の .entry-content（最大幅740px）の中で使う部品群。
+   ・色・フォントはすべて既存 style.css の :root 変数を流用。
+   ・既存クラスとぶつからないよう、すべて .gem- 接頭辞。
+   ・このファイルの中身は style.css の末尾に「追記」するだけでOK。
+   ============================================================ */
+
+/* リード文（各ページ冒頭の導入文） */
+.gem-lead{font-size:16px;line-height:2;color:var(--ink-2);margin:0 0 32px;}
+
+/* PR表記バナー（ステマ規制対応／ページ上部に置く小さな帯） */
+.gem-pr-banner{display:flex;align-items:center;gap:9px;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-size:12.5px;line-height:1.7;color:var(--ink-2);margin:0 0 28px;}
+.gem-pr-banner svg{flex:none;}
+
+/* 情報ボックス */
+.gem-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 26px;margin:24px 0;}
+.gem-box--soft{background:var(--bg-soft);}
+.gem-box--gold{border-color:var(--border-gold);}
+.gem-box > :first-child{margin-top:0;}
+.gem-box > :last-child{margin-bottom:0;}
+.gem-box-title{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:700;font-size:17px;color:var(--ink);margin:0 0 12px;}
+
+/* 注記・小さめテキスト */
+.gem-note{font-size:13px;color:var(--muted);line-height:1.9;}
+
+/* 情報テーブル（運営者概要・お問い合わせ概要など） */
+.gem-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px;}
+.gem-table th,.gem-table td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.8;}
+.gem-table th{width:32%;font-weight:700;color:var(--ink);background:var(--bg-soft);white-space:nowrap;}
+.gem-table td{color:var(--ink-2);}
+@media(max-width:600px){
+  .gem-table,.gem-table tbody,.gem-table tr,.gem-table th,.gem-table td{display:block;width:100%;}
+  .gem-table th{border-bottom:0;padding:12px 16px 2px;}
+  .gem-table td{padding:0 16px 14px;}
+}
+
+/* プロフィールカード（運営者・講師の紹介） */
+.gem-profile{display:flex;gap:22px;align-items:flex-start;background:var(--card);border:1px solid var(--border-gold);border-radius:14px;padding:26px;margin:28px 0;}
+.gem-profile-photo{flex:none;width:96px;height:96px;border-radius:50%;object-fit:cover;background:var(--bg-soft);}
+.gem-profile-body{flex:1;min-width:0;}
+.gem-profile-name{font-family:var(--serif);font-weight:800;font-size:19px;color:var(--ink);margin:0 0 4px;}
+.gem-profile-role{font-size:12.5px;color:var(--gold);font-weight:700;margin:0 0 12px;}
+.gem-profile-body p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.95;}
+@media(max-width:560px){.gem-profile{flex-direction:column;align-items:center;text-align:center;}}
+
+/* チェックリスト（学べること・対象者・特典など） */
+.gem-checklist{list-style:none;margin:20px 0;padding:0;display:flex;flex-direction:column;gap:13px;}
+.gem-checklist li{display:flex;align-items:flex-start;gap:11px;font-size:14.5px;color:var(--ink);line-height:1.85;}
+.gem-checklist li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--rose) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/13px no-repeat;}
+
+/* ステップ（受講の流れなど。番号は自動採番） */
+.gem-steps{counter-reset:gemstep;margin:24px 0;display:flex;flex-direction:column;gap:14px;}
+.gem-step{position:relative;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px 20px 66px;}
+.gem-step::before{counter-increment:gemstep;content:counter(gemstep);position:absolute;left:18px;top:18px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--rose);color:#fff;font-family:var(--serif);font-weight:700;font-size:16px;line-height:1;}
+.gem-step-title{font-family:var(--serif);font-weight:700;font-size:16px;color:var(--ink);margin:0 0 6px;}
+.gem-step p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.85;}
+
+/* FAQ（Q&A） */
+.gem-faq{margin:20px 0;display:flex;flex-direction:column;gap:12px;}
+.gem-faq-item{border:1px solid var(--border);border-radius:12px;padding:18px 22px;background:var(--card);}
+.gem-faq-q{display:flex;gap:10px;align-items:flex-start;font-weight:700;color:var(--ink);font-size:15px;line-height:1.7;}
+.gem-faq-q::before{content:"Q";flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--rose);color:#fff;font-family:var(--serif);font-size:13px;line-height:1;}
+.gem-faq-a{display:flex;gap:10px;align-items:flex-start;margin-top:12px;color:var(--ink-2);font-size:14px;line-height:1.9;}
+.gem-faq-a::before{content:"A";flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-family:var(--serif);font-weight:700;font-size:13px;line-height:1;}
+
+/* 装飾区切り（ゴールドの飾り罫） */
+.gem-divider{display:flex;align-items:center;justify-content:center;margin:44px 0;}
+.gem-divider::before,.gem-divider::after{content:"";height:1px;width:64px;}
+.gem-divider::before{background:linear-gradient(90deg,transparent,var(--gold));}
+.gem-divider::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.gem-divider span{display:inline-flex;width:7px;height:7px;margin:0 12px;transform:rotate(45deg);background:var(--gold-soft);border:1px solid var(--gold);}
+
+/* 連絡用ボタン（アウトライン） */
+.gem-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0;}
+.gem-btn-outline{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-gold);background:#fff;color:var(--ink);font-weight:700;font-size:14px;padding:13px 24px;border-radius:999px;transition:background .18s var(--ease);}
+.gem-btn-outline:hover{background:var(--bg-soft);}
+
+/* 番号付き条文（プライバシーポリシー・免責事項の見出しに添える番号） */
+.entry-content .gem-article h2{display:flex;align-items:baseline;gap:12px;}
+.gem-article{counter-reset:gemsec;}
+.gem-article h2{counter-increment:gemsec;}
+.gem-article h2::before{content:counter(gemsec,decimal-leading-zero);font-family:var(--serif);font-size:16px;color:var(--gold);font-weight:700;flex:none;}
+
+
+/* ============================================================
+   ▼▼ 追加（スマホ最適化 ＋ GEO/SEO 部品）2026 ▼▼
+   ・縦に長く伸びがちな1カラムを抑え、スマホでも2列・開閉で短く。
+   ・色/フォントは既存 :root 変数のみ使用。
+   ============================================================ */
+
+/* GEO回答カプセル：ページ冒頭の「40〜60字で言い切る直接回答」。
+   AI検索/音声検索に拾われやすい要約ブロック。 */
+.gem-capsule{position:relative;background:var(--bg-soft);border:1px solid var(--border);border-left:4px solid var(--rose);border-radius:0 12px 12px 0;padding:18px 20px;margin:0 0 28px;font-size:15px;line-height:1.95;color:var(--ink);}
+.gem-capsule strong{color:var(--rose-deep);}
+
+/* パンくず（任意の見た目用。構造化データは別途自動出力） */
+.gem-crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--muted);margin:0 0 18px;}
+.gem-crumbs a{color:var(--ink-2);}
+.gem-crumbs a:hover{color:var(--rose);}
+.gem-crumbs span{color:var(--muted);}
+
+/* 汎用2列グリッド：スマホでも2列を保ち、縦の長さを半分に。
+   （極小幅360px以下のみ1列に落とす） */
+.gem-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0;}
+@media(max-width:360px){.gem-grid{grid-template-columns:1fr;}}
+
+/* 特徴カード（アイコン＋見出し＋短文）。gem-grid と組み合わせて使う */
+.gem-feature{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 16px;}
+.gem-feature .gem-feature-ico{display:inline-flex;width:38px;height:38px;align-items:center;justify-content:center;border-radius:50%;background:var(--bg-soft);color:var(--rose);margin-bottom:10px;}
+.gem-feature h3,.entry-content .gem-feature h3{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--ink);margin:0 0 6px;padding:0;border:0;}
+.gem-feature p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.8;}
+
+/* チェックリストの2列版（短い項目向け。スマホでも2列） */
+.gem-checklist--grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;}
+@media(max-width:360px){.gem-checklist--grid{grid-template-columns:1fr;}}
+.gem-checklist--grid li{font-size:13.5px;}
+
+/* アコーディオン（タップで開閉）。FAQや長い補足を畳んで縦を短く。
+   <details class="gem-acc"><summary>質問</summary><div class="gem-acc-body">答え</div></details> */
+.gem-acc-group{display:flex;flex-direction:column;gap:10px;margin:20px 0;}
+.gem-acc{border:1px solid var(--border);border-radius:12px;background:var(--card);overflow:hidden;}
+.gem-acc>summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:11px;padding:16px 18px;font-weight:700;font-size:14.5px;color:var(--ink);line-height:1.7;}
+.gem-acc>summary::-webkit-details-marker{display:none;}
+.gem-acc>summary::before{content:"Q";flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--rose);color:#fff;font-family:var(--serif);font-size:13px;line-height:1;}
+.gem-acc>summary::after{content:"";flex:none;margin-left:auto;width:9px;height:9px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg);transition:transform .2s var(--ease);margin-top:6px;}
+.gem-acc[open]>summary::after{transform:rotate(-135deg);}
+.gem-acc-body{display:flex;gap:11px;align-items:flex-start;padding:0 18px 18px;color:var(--ink-2);font-size:14px;line-height:1.95;}
+.gem-acc-body::before{content:"A";flex:none;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-family:var(--serif);font-weight:700;font-size:13px;line-height:1;}
+.gem-acc-body :first-child{margin-top:0;}
+.gem-acc-body :last-child{margin-bottom:0;}
+
+/* QAページのカテゴリ見出し */
+.entry-content .gem-qa-cat{font-family:var(--serif);font-weight:800;font-size:18px;color:var(--ink);margin:38px 0 4px;display:flex;align-items:center;gap:10px;}
+.entry-content .gem-qa-cat::before{content:"";width:7px;height:18px;border-radius:3px;background:var(--rose);flex:none;}
+.entry-content .gem-qa-cat:first-child{margin-top:8px;}
+
+/* スマホでの縦詰め（760px以下で余白を圧縮し、間延びを防ぐ） */
+@media(max-width:760px){
+  .gem-lead{font-size:15px;line-height:1.9;margin-bottom:24px;}
+  .gem-box{padding:18px 18px;margin:20px 0;}
+  .gem-step{padding:16px 18px 16px 56px;}
+  .gem-step::before{left:14px;top:15px;width:30px;height:30px;font-size:15px;}
+  .gem-profile{padding:20px;gap:16px;}
+  .gem-divider{margin:32px 0;}
+  .entry-content .gem-qa-cat{font-size:16px;margin-top:30px;}
+  .entry-content h2{font-size:21px;}
+}
+
