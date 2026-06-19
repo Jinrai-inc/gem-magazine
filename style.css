@@ -405,49 +405,87 @@ img{max-width:100%;height:auto;}
 
 
 /* =========================================================
-   お役立ちコラム サブメニュー
-   - デスクトップ(>=768px): ホバー/クリックで開くドロップダウン
-   - モバイル(<=767px)    : タップで開閉するアコーディオン
-   style.css の末尾に貼り付けてください
+   サブメニュー（お役立ちコラム など 2 階層メニュー）
+   テーマトーン（ローズ × ゴールド × 余白広め）に合わせて調整
+   - デスクトップ(≧901px) : ホバー/▾クリックでドロップダウン
+   - モバイル(≦900px)     : ▾タップでアコーディオン
    ========================================================= */
 
 .nav-desktop .menu-item-has-children,
-.mobile-menu .menu-item-has-children { position: relative; }
+.mobile-menu  .menu-item-has-children{position:relative;}
 
-/* JSが各「子持ち項目」に差し込む開閉ボタン(▾) */
+/* 親リンクと▾ボタンを揃える */
+.nav-desktop .menu-item-has-children > a,
+.mobile-menu  .menu-item-has-children > a{display:inline-flex;align-items:center;}
+
+/* JSが差し込む開閉ボタン(▾) */
 .menu-toggle-sub{
-  background:none; border:0; cursor:pointer; color:inherit;
-  padding:0 .45em; font-size:1em; line-height:1; vertical-align:middle;
+  background:transparent;border:0;cursor:pointer;
+  color:var(--muted);padding:0 4px 0 6px;
+  font-size:11px;line-height:1;vertical-align:middle;
+  transition:color .15s var(--ease);
 }
-.menu-toggle-sub .menu-toggle-icon{ display:inline-block; transition:transform .25s ease; }
-.menu-item-has-children.is-open > .menu-toggle-sub .menu-toggle-icon{ transform:rotate(180deg); }
+.menu-toggle-sub:hover{color:var(--rose);}
+.menu-toggle-sub .menu-toggle-icon{display:inline-block;transition:transform .25s var(--ease);}
+.menu-item-has-children.is-open > .menu-toggle-sub .menu-toggle-icon,
+.nav-desktop .menu-item-has-children:hover > .menu-toggle-sub .menu-toggle-icon{transform:rotate(180deg);}
 
 /* ---------- デスクトップ：ドロップダウン ---------- */
-@media (min-width:768px){
+@media(min-width:901px){
   .nav-desktop .sub-menu{
-    position:absolute; top:100%; left:0; z-index:60;
-    min-width:240px; margin:0; padding:.4rem 0; list-style:none;
-    background:#fff; border:1px solid #e7e1d4; border-radius:10px;
-    box-shadow:0 10px 28px rgba(33,28,20,.14);
-    opacity:0; visibility:hidden; transform:translateY(8px);
-    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    position:absolute;top:100%;left:-14px;z-index:60;
+    min-width:240px;margin:0;padding:8px 0;list-style:none;
+    background:rgba(255,252,252,0.98);
+    border:1px solid var(--border);border-top:2px solid var(--rose);
+    border-radius:0 0 10px 10px;
+    box-shadow:0 18px 36px -20px rgba(193,94,115,0.35);
+    opacity:0;visibility:hidden;transform:translateY(6px);
+    transition:opacity .18s var(--ease),transform .18s var(--ease),visibility .18s;
+    backdrop-filter:saturate(1.1);
   }
   .nav-desktop .menu-item-has-children:hover > .sub-menu,
   .nav-desktop .menu-item-has-children:focus-within > .sub-menu,
   .nav-desktop .menu-item-has-children.is-open > .sub-menu{
-    opacity:1; visibility:visible; transform:translateY(0);
+    opacity:1;visibility:visible;transform:translateY(0);
   }
-  .nav-desktop .sub-menu li{ display:block; }
-  .nav-desktop .sub-menu a{ display:block; padding:.55rem 1.15rem; white-space:nowrap; }
-  .nav-desktop .sub-menu a:hover{ background:#f6f1e7; }
+  .nav-desktop .sub-menu li{display:block;}
+  .nav-desktop .sub-menu a{
+    display:block;padding:10px 22px;white-space:nowrap;
+    font-family:var(--serif);font-weight:700;font-size:13.5px;
+    color:var(--ink-2);border-bottom:0;
+    transition:background .15s var(--ease),color .15s var(--ease);
+  }
+  .nav-desktop .sub-menu a:hover,
+  .nav-desktop .sub-menu .current-menu-item > a,
+  .nav-desktop .sub-menu .current_page_item > a{
+    background:var(--bg-soft);color:var(--rose-deep);
+  }
 }
 
 /* ---------- モバイル：アコーディオン ---------- */
-@media (max-width:767px){
+@media(max-width:900px){
   .mobile-menu .sub-menu{
-    list-style:none; margin:0; padding-left:1rem;
-    max-height:0; overflow:hidden; transition:max-height .3s ease;
+    list-style:none;margin:0;padding:0 0 0 14px;
+    max-height:0;overflow:hidden;
+    transition:max-height .3s var(--ease);
+    border-left:1px solid var(--border-gold);
   }
-  .mobile-menu .menu-item-has-children.is-open > .sub-menu{ max-height:1200px; }
-  .mobile-menu .sub-menu a{ display:block; padding:.5rem 0; font-size:.95em; opacity:.9; }
+  .mobile-menu .menu-item-has-children.is-open > .sub-menu{max-height:1200px;}
+  .mobile-menu .sub-menu li:last-child a{border-bottom:0;}
+  .mobile-menu .sub-menu a{
+    display:block;padding:9px 0 9px 12px;
+    font-family:var(--sans);font-weight:600;font-size:14px;
+    color:var(--ink-2);border-bottom:1px dashed var(--border);
+    position:relative;
+  }
+  .mobile-menu .sub-menu a::before{
+    content:"";position:absolute;left:0;top:50%;width:6px;height:1px;
+    background:var(--gold);transform:translateY(-50%);
+  }
+  .mobile-menu .sub-menu a:hover,
+  .mobile-menu .sub-menu .current-menu-item > a{color:var(--rose);}
+  /* モバイルでは▾を少し大きく、タップしやすく */
+  .mobile-menu .menu-toggle-sub{
+    padding:8px 10px;font-size:13px;color:var(--gold);
+  }
 }
