@@ -403,3 +403,51 @@ img{max-width:100%;height:auto;}
   .entry-content h2{font-size:21px;}
 }
 
+
+/* =========================================================
+   お役立ちコラム サブメニュー
+   - デスクトップ(>=768px): ホバー/クリックで開くドロップダウン
+   - モバイル(<=767px)    : タップで開閉するアコーディオン
+   style.css の末尾に貼り付けてください
+   ========================================================= */
+
+.nav-desktop .menu-item-has-children,
+.mobile-menu .menu-item-has-children { position: relative; }
+
+/* JSが各「子持ち項目」に差し込む開閉ボタン(▾) */
+.menu-toggle-sub{
+  background:none; border:0; cursor:pointer; color:inherit;
+  padding:0 .45em; font-size:1em; line-height:1; vertical-align:middle;
+}
+.menu-toggle-sub .menu-toggle-icon{ display:inline-block; transition:transform .25s ease; }
+.menu-item-has-children.is-open > .menu-toggle-sub .menu-toggle-icon{ transform:rotate(180deg); }
+
+/* ---------- デスクトップ：ドロップダウン ---------- */
+@media (min-width:768px){
+  .nav-desktop .sub-menu{
+    position:absolute; top:100%; left:0; z-index:60;
+    min-width:240px; margin:0; padding:.4rem 0; list-style:none;
+    background:#fff; border:1px solid #e7e1d4; border-radius:10px;
+    box-shadow:0 10px 28px rgba(33,28,20,.14);
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+  }
+  .nav-desktop .menu-item-has-children:hover > .sub-menu,
+  .nav-desktop .menu-item-has-children:focus-within > .sub-menu,
+  .nav-desktop .menu-item-has-children.is-open > .sub-menu{
+    opacity:1; visibility:visible; transform:translateY(0);
+  }
+  .nav-desktop .sub-menu li{ display:block; }
+  .nav-desktop .sub-menu a{ display:block; padding:.55rem 1.15rem; white-space:nowrap; }
+  .nav-desktop .sub-menu a:hover{ background:#f6f1e7; }
+}
+
+/* ---------- モバイル：アコーディオン ---------- */
+@media (max-width:767px){
+  .mobile-menu .sub-menu{
+    list-style:none; margin:0; padding-left:1rem;
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .mobile-menu .menu-item-has-children.is-open > .sub-menu{ max-height:1200px; }
+  .mobile-menu .sub-menu a{ display:block; padding:.5rem 0; font-size:.95em; opacity:.9; }
+}

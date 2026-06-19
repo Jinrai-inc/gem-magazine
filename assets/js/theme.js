@@ -44,3 +44,39 @@
     }
   });
 })();
+
+/* =========================================================
+   お役立ちコラム サブメニュー開閉
+   assets/js/theme.js の末尾に貼り付けてください
+   （子を持つメニュー項目に開閉ボタン▾を自動で差し込みます）
+   ========================================================= */
+(function () {
+  function initSubmenuToggle() {
+    var parents = document.querySelectorAll(
+      '.nav-desktop .menu-item-has-children, .mobile-menu .menu-item-has-children'
+    );
+    parents.forEach(function (li) {
+      var sub = li.querySelector(':scope > .sub-menu');
+      if (!sub || li.querySelector(':scope > .menu-toggle-sub')) return;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'menu-toggle-sub';
+      btn.setAttribute('aria-label', 'サブメニューを開閉');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<span class="menu-toggle-icon" aria-hidden="true">\u25BE</span>';
+
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var open = li.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      var link = li.querySelector(':scope > a');
+      (link || li).insertAdjacentElement('afterend', btn);
+    });
+  }
+  if (document.readyState !== 'loading') initSubmenuToggle();
+  else document.addEventListener('DOMContentLoaded', initSubmenuToggle);
+})();
