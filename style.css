@@ -548,3 +548,269 @@ img{max-width:100%;height:auto;}
     position:absolute; top:0; left:100%; min-width:220px;
   }
 }
+
+
+/* ============================================================
+   Article typography — h1〜h6（テーマトーン：ローズ × ゴールド × 明朝）
+   `.entry-content` 配下の本文見出しに適用。
+   既存の固定ページ部品（gem-article / gem-qa-cat / gem-feature /
+   inline-cta）と衝突しないように末尾で resets を付与。
+   ============================================================ */
+
+/* h1：明朝の太字＋下にローズ→ゴールドのグラデーション罫 */
+.entry-content h1{
+  font-family:var(--serif);font-weight:800;
+  font-size:30px;line-height:1.45;letter-spacing:.01em;
+  color:var(--ink);
+  margin:48px 0 24px;
+  padding-bottom:14px;
+  position:relative;
+  border-bottom:1px solid var(--border);
+}
+.entry-content h1::after{
+  content:"";position:absolute;left:0;bottom:-1px;
+  width:84px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,var(--rose),var(--gold));
+}
+
+/* h2：左にローズの太罫＋うすいピンクの帯。章タイトルに */
+.entry-content h2{
+  font-family:var(--serif);font-weight:800;
+  font-size:25px;line-height:1.55;letter-spacing:.01em;
+  color:var(--ink);
+  margin:52px 0 20px;
+  padding:14px 20px 14px 22px;
+  background:linear-gradient(90deg,var(--bg-soft) 0%,rgba(252,241,243,0) 78%);
+  border-left:4px solid var(--rose);
+  border-radius:0 8px 8px 0;
+}
+
+/* h3：細めのローズ罫（既存テイストを継承しつつ整理） */
+.entry-content h3{
+  font-family:var(--serif);font-weight:700;
+  font-size:19.5px;line-height:1.6;
+  color:var(--ink);
+  margin:36px 0 14px;
+  padding-left:14px;
+  border-left:3px solid var(--rose);
+  background:transparent;border-radius:0;
+}
+
+/* h4：明朝・ローズディープにゴールドの菱形マーカー */
+.entry-content h4{
+  font-family:var(--serif);font-weight:700;
+  font-size:17px;line-height:1.6;
+  color:var(--rose-deep);
+  margin:30px 0 10px;
+  display:flex;align-items:center;gap:10px;
+}
+.entry-content h4::before{
+  content:"";flex:none;width:8px;height:8px;
+  background:var(--gold);transform:rotate(45deg);
+}
+
+/* h5：サンセリフ・ゴールドの点線下罫 */
+.entry-content h5{
+  font-family:var(--sans);font-weight:700;
+  font-size:14.5px;letter-spacing:.04em;
+  color:var(--ink);
+  margin:26px 0 10px;
+  padding-bottom:6px;
+  border-bottom:1px dashed var(--border-gold);
+}
+
+/* h6：ゴールドの小さなキッカー（オールキャップス） */
+.entry-content h6{
+  font-family:var(--sans);font-weight:800;
+  font-size:11.5px;letter-spacing:.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin:22px 0 6px;
+}
+
+/* 既存コンポーネントとの干渉を抑える resets */
+.entry-content .gem-qa-cat{
+  background:transparent;border-left:0;padding:0;border-radius:0;
+}
+.entry-content .gem-article h2{
+  background:transparent;border-left:0;padding:0;border-radius:0;
+}
+.entry-content .gem-feature h4,
+.entry-content .inline-cta h3{
+  background:transparent;border-left:0;padding:0;border-radius:0;
+}
+.entry-content .gem-feature h4::before,
+.entry-content .inline-cta h3::before{display:none;}
+
+/* スマホ調整 */
+@media(max-width:760px){
+  .entry-content h1{font-size:25px;margin:36px 0 18px;}
+  .entry-content h1::after{width:64px;}
+  .entry-content h2{font-size:21px;padding:11px 14px 11px 18px;margin:40px 0 16px;}
+  .entry-content h3{font-size:17.5px;margin:28px 0 12px;}
+  .entry-content h4{font-size:15.5px;}
+  .entry-content h5{font-size:13.5px;}
+  .entry-content h6{font-size:11px;letter-spacing:.16em;}
+}
+
+
+/* ============================================================
+   Tables — 本文の素の <table> / .wp-block-table をテーマトーンへ
+   既存の .gem-table（運営者概要などの2列表）も配色を統一
+   ============================================================ */
+
+/* WordPress ブロックエディタの <figure class="wp-block-table"> 包み対応 */
+.entry-content .wp-block-table{margin:28px 0;}
+.entry-content .wp-block-table.is-style-stripes table{border-collapse:collapse;}
+
+/* 共通テーブル：白カード × ローズ見出し × ピンク zebra */
+.entry-content table{
+  width:100%;
+  border-collapse:separate;border-spacing:0;
+  margin:28px 0;
+  font-size:14px;line-height:1.85;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 10px 24px -18px rgba(193,94,115,.25);
+}
+.entry-content table caption,
+.entry-content .wp-block-table figcaption{
+  font-family:var(--serif);font-weight:700;font-size:12.5px;
+  color:var(--ink-2);text-align:center;
+  padding:10px 14px;caption-side:bottom;
+}
+
+/* ヘッダー：ローズグラデ × 明朝 */
+.entry-content table thead th,
+.entry-content table > thead > tr > th{
+  background:linear-gradient(180deg,var(--rose) 0%,var(--rose-deep) 100%);
+  color:#fff;
+  font-family:var(--serif);font-weight:700;font-size:13.5px;
+  letter-spacing:.04em;
+  text-align:left;
+  padding:13px 16px;
+  border:0;
+  vertical-align:middle;
+}
+
+/* 行見出し（tbody の th 列）：bg-soft × ローズ */
+.entry-content table tbody th{
+  background:var(--bg-soft);
+  color:var(--rose-deep);
+  font-family:var(--serif);font-weight:700;
+  text-align:left;
+  padding:13px 16px;
+  border-top:1px solid var(--border);
+  border-right:1px solid var(--border);
+  vertical-align:top;
+  white-space:nowrap;
+}
+
+/* セル */
+.entry-content table td{
+  padding:13px 16px;
+  border-top:1px solid var(--border);
+  color:var(--ink);vertical-align:top;
+}
+/* zebra（淡いピンクで主張しすぎない） */
+.entry-content table tbody tr:nth-child(odd) td{background:#FFFBFC;}
+.entry-content table tbody tr:hover td,
+.entry-content table tbody tr:hover th{background:var(--bg-soft);}
+
+/* リンクは記事本文のローズに合わせる */
+.entry-content table a{color:var(--rose-deep);text-decoration:underline;}
+
+/* スマホ：横スクロール、文字も少し小さく */
+@media(max-width:600px){
+  .entry-content .wp-block-table{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .entry-content table{font-size:13px;}
+  .entry-content table thead th,
+  .entry-content table tbody th,
+  .entry-content table td{padding:11px 12px;}
+}
+
+/* 既存 .gem-table のヘッダー配色をテーマに統一
+   （bg-soft の地味なベージュから、ローズグラデの華やかなヘッダーへ） */
+.gem-table{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 10px 24px -18px rgba(193,94,115,.25);
+}
+.gem-table th{
+  background:linear-gradient(180deg,var(--rose) 0%,var(--rose-deep) 100%);
+  color:#fff;
+  font-family:var(--serif);
+  border-bottom:0;
+}
+.gem-table tbody tr:nth-child(odd) td{background:#FFFBFC;}
+.gem-table tbody tr:hover td{background:var(--bg-soft);}
+@media(max-width:600px){
+  .gem-table th{background:var(--bg-soft);color:var(--rose-deep);border-radius:0;}
+  .gem-table{border-radius:10px;}
+}
+
+
+/* ============================================================
+   付随要素（リスト・引用・水平線・コード）もテーマトーンに整える
+   ============================================================ */
+
+/* ul / ol：ローズの小さなマーカー */
+.entry-content ul:not([class]),
+.entry-content ol:not([class]){
+  margin:18px 0;padding-left:1.4em;
+}
+.entry-content ul:not([class]) > li,
+.entry-content ol:not([class]) > li{margin:.4em 0;padding-left:.2em;}
+.entry-content ul:not([class]) > li::marker{color:var(--rose);}
+.entry-content ol:not([class]) > li::marker{color:var(--gold);font-family:var(--serif);font-weight:700;}
+
+/* blockquote：既存の bg-soft + ゴールド左罫を強化（飾り引用符を追加） */
+.entry-content blockquote{
+  position:relative;
+  margin:28px 0;padding:18px 24px 18px 48px;
+  background:var(--bg-soft);
+  border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;
+  color:var(--ink-2);
+  font-style:normal;
+}
+.entry-content blockquote::before{
+  content:"\201C";position:absolute;left:14px;top:6px;
+  font-family:var(--serif);font-size:38px;line-height:1;
+  color:var(--gold);
+}
+.entry-content blockquote p:last-child{margin-bottom:0;}
+.entry-content blockquote cite{
+  display:block;margin-top:8px;
+  font-size:12.5px;color:var(--muted);font-style:normal;
+}
+.entry-content blockquote cite::before{content:"— ";}
+
+/* hr：ゴールド〜ローズのグラデ罫 */
+.entry-content hr{
+  border:0;height:1px;margin:40px 0;
+  background:linear-gradient(90deg,transparent,var(--gold) 30%,var(--rose) 70%,transparent);
+}
+
+/* インラインコード／コードブロック */
+.entry-content :not(pre) > code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.9em;
+  padding:2px 7px;border-radius:5px;
+  background:var(--bg-soft);
+  color:var(--rose-deep);
+  border:1px solid var(--border);
+}
+.entry-content pre{
+  margin:24px 0;padding:18px 20px;
+  background:#FFFBFC;
+  border:1px solid var(--border);
+  border-left:3px solid var(--gold);
+  border-radius:10px;
+  overflow-x:auto;line-height:1.7;font-size:13.5px;
+}
+.entry-content pre code{background:transparent;border:0;padding:0;color:var(--ink);}
