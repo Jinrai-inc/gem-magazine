@@ -516,3 +516,18 @@ img{max-width:100%;height:auto;}
 @media(max-width:760px){
   .gem-pr-banner--auto{font-size:12px;padding:9px 12px;margin-bottom:20px;}
 }
+
+
+/* メニュー：クリック式アコーディオンに統一（常に閉じ、▼クリックで下に展開） */
+.nav-desktop .sub-menu,
+.mobile-menu  .sub-menu{ display:none !important; }
+
+.nav-desktop .menu-item-has-children.is-open > .sub-menu,
+.mobile-menu  .menu-item-has-children.is-open > .sub-menu{ display:block !important; }
+
+@media(min-width:901px){
+  /* PCは親の真下にパネルで展開（レイアウトを崩さない） */
+  .nav-desktop .menu-item-has-children.is-open > .sub-menu{
+    position:absolute; top:100%; left:-14px; z-index:60; min-width:240px;
+  }
+}
