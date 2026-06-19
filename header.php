@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) exit;
     <nav class="nav-desktop" aria-label="<?php esc_attr_e('グローバルナビ', 'gem-magazine'); ?>">
       <?php
       if (has_nav_menu('primary')) {
-          wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'depth' => 2, 'fallback_cb' => false));
+          wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'depth' => 0, 'fallback_cb' => false));
       } else {
           gem_default_menu();
       }
@@ -61,7 +61,7 @@ if (!defined('ABSPATH')) exit;
   <div class="mobile-menu" data-mobile-menu>
     <?php
     if (has_nav_menu('primary')) {
-        wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'depth' => 2, 'fallback_cb' => false));
+        wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'depth' => 0, 'fallback_cb' => false));
     } else {
         gem_default_menu();
     }

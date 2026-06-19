@@ -518,16 +518,33 @@ img{max-width:100%;height:auto;}
 }
 
 
-/* メニュー：クリック式アコーディオンに統一（常に閉じ、▼クリックで下に展開） */
+/* メニュー：常に閉じる／PCはホバー、スマホは▼タップで下に開く */
 .nav-desktop .sub-menu,
 .mobile-menu  .sub-menu{ display:none !important; }
 
-.nav-desktop .menu-item-has-children.is-open > .sub-menu,
-.mobile-menu  .menu-item-has-children.is-open > .sub-menu{ display:block !important; }
+/* スマホ：▼タップ（.is-open）で展開 */
+.mobile-menu .menu-item-has-children.is-open > .sub-menu{ display:block !important; }
 
+/* PC：ホバー or クリックで親の真下にパネル展開 */
 @media(min-width:901px){
-  /* PCは親の真下にパネルで展開（レイアウトを崩さない） */
+  .nav-desktop .menu-item-has-children:hover > .sub-menu,
+  .nav-desktop .menu-item-has-children:focus-within > .sub-menu,
   .nav-desktop .menu-item-has-children.is-open > .sub-menu{
+    display:block !important;
     position:absolute; top:100%; left:-14px; z-index:60; min-width:240px;
+  }
+}
+
+/* 3階層目以降（カテゴリが孫階層にぶら下がる場合）の入れ子表示 */
+.mobile-menu .sub-menu .menu-item-has-children.is-open > .sub-menu{
+  display:block !important;
+  padding-left:14px;border-left:1px dashed var(--border-gold);
+}
+@media(min-width:901px){
+  .nav-desktop .sub-menu .menu-item-has-children:hover > .sub-menu,
+  .nav-desktop .sub-menu .menu-item-has-children:focus-within > .sub-menu,
+  .nav-desktop .sub-menu .menu-item-has-children.is-open > .sub-menu{
+    display:block !important;
+    position:absolute; top:0; left:100%; min-width:220px;
   }
 }
