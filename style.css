@@ -828,10 +828,13 @@ img{max-width:100%;height:auto;}
 .post-thumb .gem-thumb-fallback,
 .post-thumb .gem-fallback{width:100%;height:100%;display:block;}
 
-/* 単一記事のヒーロー：既存 .article-hero の中に .article-hero-thumb を敷く */
+/* 単一記事のヒーロー：既存 .article-hero の中に .article-hero-thumb を敷く。
+   高さは clamp で上限を設けて、大画面でも過度に縦長にならないよう調整 */
 .article-hero-thumb{
   position:relative;overflow:hidden;border-radius:12px;
-  aspect-ratio:16/7;background:var(--bg-soft);
+  width:100%;
+  height:clamp(200px, 26vw, 360px);
+  background:var(--bg-soft);
 }
 .article-hero-thumb img,
 .article-hero-thumb .gem-thumb-fallback,
@@ -839,45 +842,51 @@ img{max-width:100%;height:auto;}
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
 }
 @media(max-width:760px){
-  .article-hero-thumb{aspect-ratio:16/9;border-radius:10px;}
+  .article-hero-thumb{height:clamp(180px,44vw,240px);border-radius:10px;}
 }
 
 /* 疑似アイキャッチ本体（背景画像 or グラデ） */
 .gem-thumb-fallback{
   position:absolute;inset:0;
   background-size:cover;background-position:center;background-repeat:no-repeat;
-  display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
 .gem-thumb-fallback--gradient{background:var(--bg-soft);}
 
 /* 上に敷くスクリム（半透明の暗幕＋うっすらローズ）— 文字を読みやすく */
 .gem-thumb-scrim{
-  position:absolute;inset:0;pointer-events:none;
+  position:absolute;inset:0;pointer-events:none;z-index:1;
   background:
     linear-gradient(135deg,rgba(60,53,57,0.55) 0%,rgba(193,94,115,0.38) 60%,rgba(194,163,90,0.32) 100%),
-    linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.35) 100%);
+    linear-gradient(180deg,rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.10) 40%,rgba(0,0,0,0.55) 100%);
 }
 
-/* オーバーレイのタイトル：明朝の白抜き */
+/* オーバーレイのタイトル：領域全体をフレックスで中央寄せ（横も縦も確実に中央） */
 .gem-thumb-title{
-  position:relative;z-index:2;
+  position:absolute;inset:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px 22px;
   font-family:var(--serif);font-weight:800;
   color:#fff;text-align:center;line-height:1.5;letter-spacing:.02em;
-  padding:16px 22px;max-width:92%;
-  text-shadow:0 2px 12px rgba(0,0,0,0.35);
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  text-shadow:0 2px 12px rgba(0,0,0,0.55);
+  pointer-events:none;
 }
 
 /* カード内サイズ */
-.post-thumb .gem-thumb-title{font-size:15px;padding:10px 14px;-webkit-line-clamp:3;}
+.post-thumb .gem-thumb-title{font-size:15px;padding:34px 16px 16px;}
 /* ヒーローサイズ */
-.article-hero-thumb .gem-thumb-title{font-size:30px;padding:26px 36px;-webkit-line-clamp:3;}
+.article-hero-thumb .gem-thumb-title{font-size:28px;padding:26px 36px;}
 @media(max-width:760px){
-  .article-hero-thumb .gem-thumb-title{font-size:22px;padding:18px 22px;}
-  .post-thumb .gem-thumb-title{font-size:13.5px;}
+  .article-hero-thumb .gem-thumb-title{font-size:20px;padding:18px 22px;}
+  .post-thumb .gem-thumb-title{font-size:13.5px;padding:30px 14px 14px;}
 }
 
 /* 既存の .gem-fallback（宝石グラデ）を絶対配置に整える */
 .post-thumb .gem-fallback,
 .article-hero-thumb .gem-fallback{position:absolute;inset:0;}
+
+/* カテゴリピルがタイトルにかぶるので、可読性を上げる（薄影と z-index） */
+.post-thumb .post-cat{
+  z-index:3;
+  box-shadow:0 2px 8px rgba(60,53,57,.25);
+}
