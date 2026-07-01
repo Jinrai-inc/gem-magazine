@@ -9,9 +9,9 @@ get_header();
 while (have_posts()) : the_post();
     $cat = get_the_category();
 ?>
-<?php if (has_post_thumbnail()) : ?>
-  <div class="article-hero"><?php the_post_thumbnail('large'); ?></div>
-<?php endif; ?>
+<div class="article-hero">
+  <?php gem_post_thumb('large', 'article-hero-thumb'); ?>
+</div>
 
 <article <?php post_class('article-wrap'); ?>>
   <?php if (!empty($cat)) : ?>

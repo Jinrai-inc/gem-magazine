@@ -12,6 +12,7 @@ require_once get_template_directory() . '/inc/page-shortcodes.php';
 require_once get_template_directory() . '/inc/pillar-pages.php';
 require_once get_template_directory() . '/inc/pr-banner.php';
 require_once get_template_directory() . '/inc/cta-aflink.php';
+require_once get_template_directory() . '/inc/featured-image.php';
 require_once get_template_directory() . '/inc/page-installer.php';
 require_once get_template_directory() . '/inc/page-rest.php';
 
@@ -132,17 +133,12 @@ add_filter('excerpt_more', 'gem_excerpt_more');
 function gem_post_card($i = 0) {
     $cat = get_the_category();
     $cat_name = !empty($cat) ? $cat[0]->name : '';
-    $gem = 'gem-' . (($i % 4) + 1);
+    $cat_pill = $cat_name
+        ? '<span class="post-cat">' . esc_html($cat_name) . '</span>'
+        : '';
     ?>
     <a class="post-card" href="<?php the_permalink(); ?>">
-        <div class="post-thumb">
-            <?php if (has_post_thumbnail()) : ?>
-                <?php the_post_thumbnail('medium_large', array('alt' => esc_attr(get_the_title()))); ?>
-            <?php else : ?>
-                <span class="gem-fallback <?php echo esc_attr($gem); ?>"></span>
-            <?php endif; ?>
-            <?php if ($cat_name) : ?><span class="post-cat"><?php echo esc_html($cat_name); ?></span><?php endif; ?>
-        </div>
+        <?php gem_post_thumb('medium_large', 'post-thumb', $cat_pill); ?>
         <h3 class="post-title"><?php the_title(); ?></h3>
         <div class="post-meta">
             <?php echo gem_icon('clock', 13); ?>
