@@ -44,11 +44,27 @@ if (!function_exists('gem_af_link_for_post')) {
     }
 }
 
-/** 単一記事ページ全体で .btn-line の href="#" をカテゴリ別AFリンクへ置換 */
+/**
+ * .btn-line の href="#" を AF リンクへ置換。
+ *
+ * 対象:
+ *   ・単一記事（is_singular('post')）        → カテゴリ別マップで置換
+ *   ・トップページ／固定ページ／ホーム         → 既定AFリンクで置換
+ *     （カテゴリを持たないので gem_af_link_for_post() は既定値を返す）
+ *
+ * これにより FV や「はじめての宝石鑑定」等の固定ページ内のCTAも、
+ * href="#" のままなら AF リンクに書き換わる。属性の順序（class→href / href→class）
+ * のいずれにも対応。
+ */
 add_action('template_redirect', function () {
-    if (!is_singular('post')) { return; }
+    if (!(is_singular(array('post', 'page')) || is_front_page() || is_home())) {
+        return;
+    }
     ob_start(function ($html) {
+        if ('' === trim((string) $html)) return $html;
+
         $url = esc_url(gem_af_link_for_post(get_queried_object_id()));
+
         // class(btn-line) → href="#" の順
         $html = preg_replace_callback(
             '/<a\b([^>]*\bclass="[^"]*btn-line[^"]*"[^>]*?)href="#"/i',
