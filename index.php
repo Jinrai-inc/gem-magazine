@@ -33,7 +33,23 @@ get_header();
     </div>
 
     <div class="pagination">
-      <?php echo paginate_links(array('mid_size' => 1, 'prev_text' => '‹', 'next_text' => '›')); ?>
+      <?php
+      /**
+       * ページ番号は ?paged=N 形式で統一。パーマリンク設定に依存せず、
+       * "/category/xxx/page/2/" が別記事に誤ルーティングされる問題を防ぐ。
+       */
+      global $wp_query;
+      $base = strtok(add_query_arg(array()), '?'); // 現在URL（クエリ除去）
+      echo paginate_links(array(
+          'base'      => trailingslashit($base) . '%_%',
+          'format'    => '?paged=%#%',
+          'current'   => max(1, (int) get_query_var('paged')),
+          'total'     => isset($wp_query->max_num_pages) ? (int) $wp_query->max_num_pages : 1,
+          'mid_size'  => 1,
+          'prev_text' => '‹',
+          'next_text' => '›',
+      ));
+      ?>
     </div>
   <?php else : ?>
     <p style="text-align:center;color:var(--muted);padding:40px 0;">

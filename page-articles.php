@@ -10,7 +10,21 @@
 if (!defined('ABSPATH')) exit;
 get_header();
 
-$paged = max(1, get_query_var('paged') ? (int) get_query_var('paged') : (int) get_query_var('page'));
+/**
+ * 固定ページ配下の投稿一覧では、"/articles/page/N/" が WordPress 側で
+ * 「固定ページ本文のマルチページ分割」(page クエリ変数) として解釈され、
+ * 投稿一覧のページ送りにならない。そのため常に ?paged=N をソースにする。
+ */
+$paged = 1;
+if (!empty($_GET['paged'])) {
+    $paged = (int) $_GET['paged'];
+} elseif (get_query_var('paged')) {
+    $paged = (int) get_query_var('paged');
+} elseif (get_query_var('page')) {
+    $paged = (int) get_query_var('page');
+}
+$paged = max(1, $paged);
+
 $q = new WP_Query(array(
     'post_type'      => 'post',
     'posts_per_page' => 9,
@@ -43,7 +57,7 @@ $q = new WP_Query(array(
       <?php
       echo paginate_links(array(
           'base'      => trailingslashit(get_permalink()) . '%_%',
-          'format'    => 'page/%#%/',
+          'format'    => '?paged=%#%',
           'current'   => $paged,
           'total'     => $q->max_num_pages,
           'mid_size'  => 1,
