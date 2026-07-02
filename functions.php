@@ -13,6 +13,7 @@ require_once get_template_directory() . '/inc/pillar-pages.php';
 require_once get_template_directory() . '/inc/pr-banner.php';
 require_once get_template_directory() . '/inc/cta-aflink.php';
 require_once get_template_directory() . '/inc/featured-image.php';
+require_once get_template_directory() . '/inc/post-views.php';
 require_once get_template_directory() . '/inc/page-installer.php';
 require_once get_template_directory() . '/inc/page-rest.php';
 
@@ -130,19 +131,32 @@ add_filter('excerpt_more', 'gem_excerpt_more');
  * 記事カード（ループ内で使用）
  * $i = 0始まりのインデックス（フォールバック宝石グラデの色出し分け用）
  * ------------------------------------------------------- */
-function gem_post_card($i = 0) {
+function gem_post_card($i = 0, $rank = 0) {
     $cat = get_the_category();
     $cat_name = !empty($cat) ? $cat[0]->name : '';
     $cat_pill = $cat_name
         ? '<span class="post-cat">' . esc_html($cat_name) . '</span>'
         : '';
+    if ($rank > 0) {
+        $cat_pill .= '<span class="post-rank" aria-label="' . esc_attr(sprintf(__('%d位', 'gem-magazine'), $rank)) . '">' . (int) $rank . '</span>';
+    }
+    $pub = get_the_date('Y.m.d');
+    $mod = get_the_modified_date('Y.m.d');
     ?>
     <a class="post-card" href="<?php the_permalink(); ?>">
         <?php gem_post_thumb('medium_large', 'post-thumb', $cat_pill); ?>
         <h3 class="post-title"><?php the_title(); ?></h3>
         <div class="post-meta">
-            <?php echo gem_icon('clock', 13); ?>
-            <span><?php echo esc_html(get_the_date('Y.m.d')); ?></span>
+            <span class="post-meta-item">
+                <?php echo gem_icon('clock', 13); ?>
+                <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html($pub); ?></time>
+            </span>
+            <?php if ($mod && $mod !== $pub) : ?>
+                <span class="post-meta-item post-meta-item--mod">
+                    <?php echo gem_icon('refresh', 13); ?>
+                    <time datetime="<?php echo esc_attr(get_the_modified_date('c')); ?>"><?php echo esc_html($mod); ?></time>
+                </span>
+            <?php endif; ?>
         </div>
     </a>
     <?php

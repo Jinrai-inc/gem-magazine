@@ -76,6 +76,33 @@ $gift       = gem_mod('gem_hero_gift', '査定額の見方・基礎知識・選�
   </div>
 </section>
 
+<!-- ===== 記事ランキング ===== -->
+<section class="section" id="ranking">
+  <div class="reveal">
+    <div class="section-head section-head--between">
+      <div class="left">
+        <?php echo gem_icon('trend', 22, '#D87E92'); ?>
+        <h2 class="section-title"><?php esc_html_e('記事ランキング', 'gem-magazine'); ?></h2>
+      </div>
+      <a class="head-link" href="<?php echo esc_url(gem_articles_page_url()); ?>">
+        <?php esc_html_e('記事一覧へ', 'gem-magazine'); ?> <?php echo gem_icon('chevron', 13); ?>
+      </a>
+    </div>
+    <?php
+    $rank_q = gem_ranking_query(6);
+    if ($rank_q->have_posts()) : ?>
+      <div class="posts-grid posts-grid--ranking">
+        <?php $i = 0; while ($rank_q->have_posts()) : $rank_q->the_post();
+            gem_post_card($i, $i + 1);
+            $i++;
+        endwhile; wp_reset_postdata(); ?>
+      </div>
+    <?php else : ?>
+      <p style="color:var(--muted);"><?php esc_html_e('ランキングに表示できる記事がまだありません。閲覧数が集計されると自動で並び替わります。', 'gem-magazine'); ?></p>
+    <?php endif; ?>
+  </div>
+</section>
+
 <!-- ===== 新着記事 ===== -->
 <section class="section" id="posts">
   <div class="reveal">
@@ -84,13 +111,13 @@ $gift       = gem_mod('gem_hero_gift', '査定額の見方・基礎知識・選�
         <?php echo gem_icon('gem', 22, '#D87E92'); ?>
         <h2 class="section-title"><?php esc_html_e('新着記事', 'gem-magazine'); ?></h2>
       </div>
-      <a class="head-link" href="<?php echo esc_url(get_permalink(get_option('page_for_posts')) ?: home_url('/')); ?>">
+      <a class="head-link" href="<?php echo esc_url(gem_articles_page_url()); ?>">
         <?php esc_html_e('記事一覧へ', 'gem-magazine'); ?> <?php echo gem_icon('chevron', 13); ?>
       </a>
     </div>
     <div class="posts-grid">
       <?php
-      $q = new WP_Query(array('posts_per_page' => 4, 'ignore_sticky_posts' => true));
+      $q = new WP_Query(array('posts_per_page' => 6, 'ignore_sticky_posts' => true));
       if ($q->have_posts()) :
           $i = 0;
           while ($q->have_posts()) : $q->the_post();
@@ -99,7 +126,7 @@ $gift       = gem_mod('gem_hero_gift', '査定額の見方・基礎知識・選�
           endwhile;
           wp_reset_postdata();
       else : ?>
-        <p style="color:var(--muted);"><?php esc_html_e('記事がまだありません。投稿を追加すると、ここに最新4件が表示されます。', 'gem-magazine'); ?></p>
+        <p style="color:var(--muted);"><?php esc_html_e('記事がまだありません。投稿を追加すると、ここに最新6件が表示されます。', 'gem-magazine'); ?></p>
       <?php endif; ?>
     </div>
   </div>

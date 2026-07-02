@@ -27,7 +27,19 @@ function gem_default_pages() {
         'gem-appraisal-basics'  => array('はじめての宝石鑑定',              'gem-appraisal-basics.html'),
         'appraisal-value'       => array('鑑定額の見方',                    'appraisal-value.html'),
         'gem-basics'            => array('宝石の基礎講座',                  'gem-basics.html'),
+        'articles'              => array('記事一覧',                        'articles.html'),
     );
+}
+
+/**
+ * 記事一覧ページのURL。page_for_posts 優先、なければ "articles" スラッグを使用。
+ */
+function gem_articles_page_url() {
+    $pfp = (int) get_option('page_for_posts');
+    if ($pfp) return get_permalink($pfp);
+    $p = get_page_by_path('articles', OBJECT, 'page');
+    if ($p) return get_permalink($p);
+    return home_url('/');
 }
 
 /**
@@ -79,7 +91,7 @@ function gem_install_default_pages() {
 }
 
 /* テーマ有効化時に1度だけ自動実行（バージョン管理：ページ追加時はインクリメント） */
-define('GEM_PAGES_INSTALL_VERSION', 2);
+define('GEM_PAGES_INSTALL_VERSION', 3);
 function gem_install_default_pages_on_activation() {
     if ((int) get_option('gem_default_pages_installed') >= GEM_PAGES_INSTALL_VERSION) return;
     gem_install_default_pages();
