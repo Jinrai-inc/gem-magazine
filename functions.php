@@ -14,6 +14,7 @@ require_once get_template_directory() . '/inc/pr-banner.php';
 require_once get_template_directory() . '/inc/cta-aflink.php';
 require_once get_template_directory() . '/inc/featured-image.php';
 require_once get_template_directory() . '/inc/post-views.php';
+require_once get_template_directory() . '/inc/archive-support.php';
 require_once get_template_directory() . '/inc/page-installer.php';
 require_once get_template_directory() . '/inc/page-rest.php';
 
