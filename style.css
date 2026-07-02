@@ -225,6 +225,7 @@ img{max-width:100%;height:auto;}
 .pagination .page-numbers{display:inline-flex;min-width:40px;height:40px;align-items:center;justify-content:center;padding:0 12px;border:1px solid var(--border);border-radius:8px;font-weight:700;font-size:14px;color:var(--ink-2);}
 .pagination .page-numbers.current{background:var(--rose);border-color:var(--rose);color:#fff;}
 .pagination a.page-numbers:hover{border-color:var(--rose);color:var(--rose);}
+.pagination .page-numbers.dots{border-color:transparent;background:transparent;color:var(--muted);}
 
 /* course CTA strip inside article */
 .inline-cta{margin:48px 0;background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center;}

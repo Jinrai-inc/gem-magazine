@@ -2,35 +2,28 @@
 /**
  * 記事一覧テンプレート（スラッグ "articles" のページに自動割当）
  *
- * WordPressの投稿ページ設定(page_for_posts)を触らずに、この固定ページに
- * アクセスした時だけ「投稿の3カラム一覧」を出す。
+ * WordPress の paged / page クエリ変数は固定ページのマルチページ機能や
+ * canonical redirect と衝突するため、独自のクエリ変数 `?pg=N` を用いる。
+ * これにより WP のパージネーション関連ロジックが一切介入しない。
  *
  * @package GEM-MAGAZINE
  */
 if (!defined('ABSPATH')) exit;
 get_header();
 
-/**
- * 固定ページ配下の投稿一覧では、"/articles/page/N/" が WordPress 側で
- * 「固定ページ本文のマルチページ分割」(page クエリ変数) として解釈され、
- * 投稿一覧のページ送りにならない。そのため常に ?paged=N をソースにする。
- */
-$paged = 1;
-if (!empty($_GET['paged'])) {
-    $paged = (int) $_GET['paged'];
-} elseif (get_query_var('paged')) {
-    $paged = (int) get_query_var('paged');
-} elseif (get_query_var('page')) {
-    $paged = (int) get_query_var('page');
-}
-$paged = max(1, $paged);
+// 独自クエリ変数 ?pg=N（WPの paged/page とは無関係）
+$paged = isset($_GET['pg']) ? max(1, (int) $_GET['pg']) : 1;
 
 $q = new WP_Query(array(
-    'post_type'      => 'post',
-    'posts_per_page' => 9,
-    'paged'          => $paged,
+    'post_type'           => 'post',
+    'post_status'         => 'publish',
+    'posts_per_page'      => 9,
+    'paged'               => $paged,
     'ignore_sticky_posts' => true,
 ));
+
+$total_pages = (int) $q->max_num_pages;
+$base_url    = get_permalink();
 ?>
 
 <div class="archive-head">
@@ -53,19 +46,43 @@ $q = new WP_Query(array(
       <?php $i = 0; while ($q->have_posts()) : $q->the_post(); gem_post_card($i); $i++; endwhile; ?>
     </div>
 
-    <div class="pagination">
-      <?php
-      echo paginate_links(array(
-          'base'      => trailingslashit(get_permalink()) . '%_%',
-          'format'    => '?paged=%#%',
-          'current'   => $paged,
-          'total'     => $q->max_num_pages,
-          'mid_size'  => 1,
-          'prev_text' => '‹',
-          'next_text' => '›',
-      ));
-      ?>
-    </div>
+    <?php if ($total_pages > 1) : ?>
+      <div class="pagination">
+        <?php
+        $win = 2; // 現在ページの前後何個を出すか
+        $range_start = max(1, $paged - $win);
+        $range_end   = min($total_pages, $paged + $win);
+
+        $link = function ($p, $label = null, $class = '') use ($base_url) {
+            $url = ($p <= 1) ? $base_url : add_query_arg('pg', $p, $base_url);
+            $lbl = $label !== null ? $label : $p;
+            echo '<a class="page-numbers ' . esc_attr($class) . '" href="' . esc_url($url) . '">' . esc_html($lbl) . '</a>';
+        };
+        $current = function ($p) {
+            echo '<span class="page-numbers current">' . esc_html($p) . '</span>';
+        };
+        $dots = function () {
+            echo '<span class="page-numbers dots">…</span>';
+        };
+
+        if ($paged > 1) $link($paged - 1, '‹', 'prev');
+
+        if ($range_start > 1) {
+            $link(1);
+            if ($range_start > 2) $dots();
+        }
+        for ($p = $range_start; $p <= $range_end; $p++) {
+            if ($p === $paged) $current($p); else $link($p);
+        }
+        if ($range_end < $total_pages) {
+            if ($range_end < $total_pages - 1) $dots();
+            $link($total_pages);
+        }
+
+        if ($paged < $total_pages) $link($paged + 1, '›', 'next');
+        ?>
+      </div>
+    <?php endif; ?>
   <?php else : ?>
     <p style="text-align:center;color:var(--muted);padding:40px 0;">
       <?php esc_html_e('記事がまだありません。', 'gem-magazine'); ?>
