@@ -907,3 +907,38 @@ img{max-width:100%;height:auto;}
   z-index:3;
   box-shadow:0 2px 8px rgba(60,53,57,.25);
 }
+
+
+/* ============================================================
+   SEO/GEO 強化パーツ（パンくず・著者・関連記事・アーカイブ説明）
+   ============================================================ */
+
+/* アーカイブ／カテゴリの説明文 */
+.archive-lead{max-width:740px;margin:14px auto 0;font-size:14px;line-height:1.9;color:var(--ink-2);text-align:left;}
+
+/* アーカイブ見出し内のパンくずは中央寄せに揃える */
+.archive-head .gem-crumbs{justify-content:center;margin-bottom:14px;}
+/* 記事本文先頭のパンくず */
+.article-wrap > .gem-crumbs{margin-bottom:16px;}
+
+/* 著者情報ボックス */
+.gem-author-box{
+  display:flex;gap:18px;align-items:flex-start;
+  margin:40px 0 8px;padding:22px 24px;
+  background:var(--bg-soft);
+  border:1px solid var(--border-gold);
+  border-radius:14px;
+}
+.gem-author-avatar img{width:64px;height:64px;border-radius:50%;display:block;object-fit:cover;}
+.gem-author-body{flex:1;min-width:0;}
+.gem-author-role{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--gold);margin:0 0 4px;}
+.gem-author-name{font-family:var(--serif);font-weight:800;font-size:17px;color:var(--ink);margin:0 0 8px;}
+.gem-author-name a{color:inherit;}
+.gem-author-name a:hover{color:var(--rose);}
+.gem-author-bio{font-size:13.5px;line-height:1.9;color:var(--ink-2);margin:0;}
+@media(max-width:560px){
+  .gem-author-box{flex-direction:column;align-items:center;text-align:center;gap:12px;}
+}
+
+/* 関連記事セクション */
+.gem-related{padding-top:24px;padding-bottom:8px;}

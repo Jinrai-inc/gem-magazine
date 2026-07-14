@@ -8,6 +8,7 @@ get_header();
 ?>
 
 <div class="archive-head">
+  <?php if (function_exists('gem_breadcrumbs')) gem_breadcrumbs(); ?>
   <h1 class="archive-title">
     <?php
     if (is_home() && !is_front_page()) {
@@ -24,6 +25,15 @@ get_header();
     }
     ?>
   </h1>
+  <?php
+  // カテゴリ・タグ・タクソノミーの説明文（SEO/GEOの文脈補強）
+  if (is_category() || is_tag() || is_tax()) {
+      $term_desc = term_description();
+      if ($term_desc) {
+          echo '<div class="archive-lead">' . wp_kses_post($term_desc) . '</div>';
+      }
+  }
+  ?>
 </div>
 
 <section class="section" style="padding-top:32px;">

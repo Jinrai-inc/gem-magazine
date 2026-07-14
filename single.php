@@ -14,12 +14,16 @@ while (have_posts()) : the_post();
 </div>
 
 <article <?php post_class('article-wrap'); ?>>
+  <?php gem_breadcrumbs(); ?>
   <?php if (!empty($cat)) : ?>
     <a class="entry-cat" href="<?php echo esc_url(get_category_link($cat[0]->term_id)); ?>"><?php echo esc_html($cat[0]->name); ?></a>
   <?php endif; ?>
   <h1 class="entry-title"><?php the_title(); ?></h1>
   <div class="entry-meta">
     <span><?php echo gem_icon('clock', 13); ?> <?php echo esc_html(get_the_date('Y.m.d')); ?></span>
+    <?php $mod = get_the_modified_date('Y.m.d'); if ($mod && $mod !== get_the_date('Y.m.d')) : ?>
+      <span><?php echo gem_icon('refresh', 13); ?> <?php echo esc_html($mod); ?> <?php esc_html_e('更新', 'gem-magazine'); ?></span>
+    <?php endif; ?>
     <?php if (get_the_author()) : ?><span><?php the_author(); ?></span><?php endif; ?>
   </div>
 
@@ -42,7 +46,11 @@ while (have_posts()) : the_post();
       ?>
     </div>
   <?php endif; ?>
+
+  <?php gem_author_box(); ?>
 </article>
+
+<?php gem_related_posts(3); ?>
 
 <?php
     if (comments_open() || get_comments_number()) {
