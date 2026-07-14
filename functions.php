@@ -57,9 +57,10 @@ add_action('after_setup_theme', 'gem_setup');
  * スタイル・スクリプト
  * ------------------------------------------------------- */
 function gem_assets() {
+    // 実際に使用する太さのみ読み込み（明朝は700/800のみ。日本語フォントの転送量を削減）
     wp_enqueue_style(
         'gem-fonts',
-        'https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap',
+        'https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap',
         array(),
         null
     );

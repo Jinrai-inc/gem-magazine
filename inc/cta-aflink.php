@@ -62,6 +62,10 @@ add_action('template_redirect', function () {
     }
     ob_start(function ($html) {
         if ('' === trim((string) $html)) return $html;
+        // 置換対象（btn-line かつ href="#"）が無いページは正規表現を回さない（サーバー処理を軽く）
+        if (strpos($html, 'btn-line') === false || strpos($html, 'href="#"') === false) {
+            return $html;
+        }
 
         $url = esc_url(gem_af_link_for_post(get_queried_object_id()));
 
