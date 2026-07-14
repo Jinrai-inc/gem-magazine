@@ -55,15 +55,24 @@ function gem_featured_bg_url() {
  * @param string $size       WP 画像サイズ（'medium_large' / 'large' 等）
  * @param string $wrap_class ラッパー div のクラス（既定 "post-thumb"）
  * @param string $inner_html post-thumb 内に追加で挿入するHTML（例：カテゴリピル）
+ * @param bool   $priority   LCP画像として優先取得するか（記事ヒーロー等）
  */
-function gem_post_thumb($size = 'medium_large', $wrap_class = 'post-thumb', $inner_html = '') {
+function gem_post_thumb($size = 'medium_large', $wrap_class = 'post-thumb', $inner_html = '', $priority = false) {
     $title = get_the_title();
     $alt   = esc_attr($title);
 
     echo '<div class="' . esc_attr($wrap_class) . '">';
 
     if (has_post_thumbnail()) {
-        the_post_thumbnail($size, array('alt' => $alt, 'loading' => 'lazy'));
+        $attr = array('alt' => $alt, 'decoding' => 'async');
+        if ($priority) {
+            // LCP候補：即時取得＋高優先度（遅延読み込みしない）
+            $attr['loading']       = 'eager';
+            $attr['fetchpriority'] = 'high';
+        } else {
+            $attr['loading'] = 'lazy';
+        }
+        the_post_thumbnail($size, $attr);
     } else {
         $bg = gem_featured_bg_url();
         $i  = intval(get_the_ID());

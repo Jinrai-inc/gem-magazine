@@ -10,7 +10,7 @@ while (have_posts()) : the_post();
     $cat = get_the_category();
 ?>
 <div class="article-hero">
-  <?php gem_post_thumb('large', 'article-hero-thumb'); ?>
+  <?php gem_post_thumb('large', 'article-hero-thumb', '', true); ?>
 </div>
 
 <article <?php post_class('article-wrap'); ?>>

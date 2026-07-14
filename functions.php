@@ -15,6 +15,7 @@ require_once get_template_directory() . '/inc/cta-aflink.php';
 require_once get_template_directory() . '/inc/featured-image.php';
 require_once get_template_directory() . '/inc/post-views.php';
 require_once get_template_directory() . '/inc/archive-support.php';
+require_once get_template_directory() . '/inc/performance.php';
 require_once get_template_directory() . '/inc/page-installer.php';
 require_once get_template_directory() . '/inc/page-rest.php';
 
@@ -61,8 +62,10 @@ function gem_assets() {
         array(),
         null
     );
-    wp_enqueue_style('gem-style', get_stylesheet_uri(), array('gem-fonts'), GEM_VER);
+    // フォントに依存させず並列読み込み（フォントは inc/performance.php で非同期化）
+    wp_enqueue_style('gem-style', get_stylesheet_uri(), array(), GEM_VER);
     wp_enqueue_script('gem-theme', get_template_directory_uri() . '/assets/js/theme.js', array(), GEM_VER, true);
+    wp_script_add_data('gem-theme', 'defer', true);
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
